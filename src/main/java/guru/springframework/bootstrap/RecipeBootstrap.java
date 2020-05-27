@@ -61,27 +61,16 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
         UnitOfMeasure garnish = getAndCheckUnitOfMeasureFromRepository("garnish");
         UnitOfMeasure dash = getAndCheckUnitOfMeasureFromRepository("dash");
 
-        Ingredient avocados = new Ingredient("Avocados", BigDecimal.valueOf(2), ripe, perfectGuacamole);
-        Ingredient salt = new Ingredient("Salt", BigDecimal.valueOf(0.25), teaspoon, perfectGuacamole);
-        Ingredient freshLimeJuice = new Ingredient("Fresh Lime Juice", BigDecimal.valueOf(1), tablespoon, perfectGuacamole);
-        Ingredient redOnions = new Ingredient("Red onions", BigDecimal.valueOf(0.25), cup, perfectGuacamole);
-        Ingredient serannoChiles = new Ingredient("Seranno Chiles - stems and seeds removed", BigDecimal.valueOf(1), minced, perfectGuacamole);
-        Ingredient cilantro = new Ingredient("Cilantro", BigDecimal.valueOf(2), chopped, perfectGuacamole);
-        Ingredient blackPepper = new Ingredient("Black Pepper", BigDecimal.valueOf(0), dash, perfectGuacamole);
-        Ingredient tomato = new Ingredient("Tomato", BigDecimal.valueOf(0.5), chopped, perfectGuacamole);
-        Ingredient redRadish = new Ingredient("Red Radish", BigDecimal.valueOf(0), garnish, perfectGuacamole);
-        Ingredient tortilla = new Ingredient("Tortilla Chips", BigDecimal.valueOf(0), garnish, perfectGuacamole);
-
-        ingredientSet.add(avocados);
-        ingredientSet.add(salt);
-        ingredientSet.add(freshLimeJuice);
-        ingredientSet.add(redOnions);
-        ingredientSet.add(serannoChiles);
-        ingredientSet.add(cilantro);
-        ingredientSet.add(blackPepper);
-        ingredientSet.add(tomato);
-        ingredientSet.add(redRadish);
-        ingredientSet.add(tortilla);
+        Ingredient avocados = new Ingredient("Avocados", BigDecimal.valueOf(2), ripe);
+        Ingredient salt = new Ingredient("Salt", BigDecimal.valueOf(0.25), teaspoon);
+        Ingredient freshLimeJuice = new Ingredient("Fresh Lime Juice", BigDecimal.valueOf(1), tablespoon);
+        Ingredient redOnions = new Ingredient("Red onions", BigDecimal.valueOf(0.25), cup);
+        Ingredient serannoChiles = new Ingredient("Seranno Chiles - stems and seeds removed", BigDecimal.valueOf(1), minced);
+        Ingredient cilantro = new Ingredient("Cilantro", BigDecimal.valueOf(2), chopped);
+        Ingredient blackPepper = new Ingredient("Black Pepper", BigDecimal.valueOf(0), dash);
+        Ingredient tomato = new Ingredient("Tomato", BigDecimal.valueOf(0.5), chopped);
+        Ingredient redRadish = new Ingredient("Red Radish", BigDecimal.valueOf(0), garnish);
+        Ingredient tortilla = new Ingredient("Tortilla Chips", BigDecimal.valueOf(0), garnish);
 
         perfectGuacamole.setDescription("American Perfect Guacamole");
         perfectGuacamole.setPrepTime(10);
@@ -90,7 +79,7 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
         perfectGuacamole.setDifficulty(Difficulty.EASY);
         perfectGuacamole.setSource("Simply Recipes");
         perfectGuacamole.setUrl("https://www.simplyrecipes.com/recipes/perfect_guacamole/");
-        perfectGuacamole.setIngredient(ingredientSet);
+        perfectGuacamole.setIngredients(ingredientSet);
         perfectGuacamole.setDirections("" +
                 "1. Cut the avocado, remove flesh: Cut the avocados in half. Remove the pit. Score the inside of the avocado with a blunt knife and scoop out the flesh with a spoon." +
                 "\n2. Mash with a fork: Using a fork, roughly mash the avocado. (Don't overdo it! The guacamole should be a little chunky.)" +
@@ -110,10 +99,19 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
                 "If you leave the guacamole exposed to air, it will start to brown and discolor. " +
                 "That browning isn’t very appetizing, but the guacamole is still good. " +
                 "You can either scrape off the brown parts and discard, or stir them into the rest of the guacamole.");
-        guacamoleNotes.setRecipe(perfectGuacamole);
 
         perfectGuacamole.setNotes(guacamoleNotes);
 
+        perfectGuacamole.addIngredient(avocados);
+        perfectGuacamole.addIngredient(salt);
+        perfectGuacamole.addIngredient(freshLimeJuice);
+        perfectGuacamole.addIngredient(redOnions);
+        perfectGuacamole.addIngredient(serannoChiles);
+        perfectGuacamole.addIngredient(cilantro);
+        perfectGuacamole.addIngredient(blackPepper);
+        perfectGuacamole.addIngredient(tomato);
+        perfectGuacamole.addIngredient(redRadish);
+        perfectGuacamole.addIngredient(tortilla);
 
         perfectGuacamole.getCategories().add(americanCategory);
         perfectGuacamole.getCategories().add(mexicanCategory);
