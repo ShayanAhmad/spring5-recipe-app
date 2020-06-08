@@ -32,7 +32,7 @@ public class RecipeControllerTest {
     private RecipeServiceImpl recipeService;
 
     @InjectMocks
-    private RecipeController indexController;
+    private RecipeController recipeController;
 
     private MockMvc mockMvc;
 
@@ -43,7 +43,7 @@ public class RecipeControllerTest {
         recipes.add(new Recipe(1L, "First Recipe"));
         recipes.add(new Recipe(2L, "Second Recipe"));
         mockMvc = MockMvcBuilders
-                .standaloneSetup(indexController)
+                .standaloneSetup(recipeController)
                 .build();
     }
 

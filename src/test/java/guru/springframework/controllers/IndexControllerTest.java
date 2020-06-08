@@ -53,7 +53,7 @@ public class IndexControllerTest {
         when(recipeService.getAllRecipes()).thenReturn(recipes);
         mockMvc.perform(get(""))
                 .andExpect(status().isOk())
-                .andExpect(view().name("index"))
+                .andExpect(view().name("index-page"))
                 .andExpect(model().attribute("recipes", Matchers.hasSize(2)));
     }
 
@@ -66,15 +66,4 @@ public class IndexControllerTest {
                 .andExpect(model().attribute("recipes", Matchers.hasSize(2)));
     }
 
-    @Test
-    public void testGetRecipeById() throws Exception {
-        final Long ID = 1L;
-        Recipe returningRecipe = new Recipe(ID, "First Recipe");
-        when(recipeService.findById(ID)).thenReturn(returningRecipe);
-
-        mockMvc.perform(get("/recipe/" + ID))
-                .andExpect(status().isOk())
-                .andExpect(view().name("recipe/show"))
-                .andExpect(model().attribute("recipe", Matchers.hasValue(returningRecipe)));
-    }
 }
