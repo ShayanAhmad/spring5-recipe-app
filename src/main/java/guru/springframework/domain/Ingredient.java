@@ -21,6 +21,7 @@ import lombok.Setter;
  */
 @Data
 @EqualsAndHashCode(exclude = "recipe")
+@NoArgsConstructor
 @Entity
 public class Ingredient {
 

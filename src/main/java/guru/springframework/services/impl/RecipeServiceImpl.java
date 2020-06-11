@@ -4,8 +4,13 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
+import javax.transaction.Transactional;
+
 import org.springframework.stereotype.Service;
 
+import guru.springframework.commands.RecipeCommand;
+import guru.springframework.converters.RecipeCommandToRecipe;
+import guru.springframework.converters.RecipeToRecipeCommand;
 import guru.springframework.domain.Recipe;
 import guru.springframework.domain.repositories.RecipeRepository;
 import guru.springframework.services.RecipeService;
@@ -16,9 +21,13 @@ import lombok.extern.slf4j.Slf4j;
 public class RecipeServiceImpl implements RecipeService {
 
     private final RecipeRepository recipeRepository;
+    private final RecipeToRecipeCommand recipeToRecipeCommandConverter;
+    private final RecipeCommandToRecipe recipeCommandToRecipeConverter;
 
-    public RecipeServiceImpl(RecipeRepository recipeRepository) {
+    public RecipeServiceImpl(RecipeRepository recipeRepository, RecipeToRecipeCommand recipeToRecipeCommandConverter, RecipeCommandToRecipe recipeCommandToRecipeConverter) {
         this.recipeRepository = recipeRepository;
+        this.recipeToRecipeCommandConverter = recipeToRecipeCommandConverter;
+        this.recipeCommandToRecipeConverter = recipeCommandToRecipeConverter;
     }
 
     @Override
@@ -41,5 +50,16 @@ public class RecipeServiceImpl implements RecipeService {
         }
 
         return recipeOptional.get();
+    }
+
+    @Override
+    @Transactional
+    public RecipeCommand saveRecipeCommand(RecipeCommand recipeCommand) {
+        Recipe detachedRecipe = recipeCommandToRecipeConverter.convert(recipeCommand);
+
+        Recipe savedRecipe = recipeRepository.save(detachedRecipe);
+        log.debug("Recipe has been saved!");
+
+        return recipeToRecipeCommandConverter.convert(savedRecipe);
     }
 }
