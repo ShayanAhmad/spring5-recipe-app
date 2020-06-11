@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import guru.springframework.domain.Recipe;
@@ -18,7 +19,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 /**
@@ -66,7 +66,7 @@ public class RecipeServiceImplTest {
         assertEquals(Long.valueOf(1), result.getId());
 
         verify(recipeRepository).findById(ID);
-        verifyNoMoreInteractions(recipeRepository);
+        Mockito.verifyNoMoreInteractions(recipeRepository);
     }
 
     @Test(expected = RuntimeException.class)

@@ -7,10 +7,15 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 /**
  * Food recipe notes.
  */
 @Entity
+@EqualsAndHashCode(exclude = "recipe")
+@Data
 public class Notes {
 
     @Id
