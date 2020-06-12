@@ -13,9 +13,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import guru.springframework.commands.RecipeCommand;
 import guru.springframework.domain.Recipe;
 import guru.springframework.services.impl.RecipeServiceImpl;
 
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
@@ -53,9 +55,33 @@ public class RecipeControllerTest {
         Recipe returningRecipe = new Recipe(ID, "First Recipe");
         when(recipeService.findById(ID)).thenReturn(returningRecipe);
 
-        mockMvc.perform(get("/recipe/show/" + ID))
+        mockMvc.perform(get("/recipe/" + ID + "/show"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("recipe/show"))
                 .andExpect(model().attribute("recipe", Matchers.is(returningRecipe)));
+    }
+
+    @Test
+    public void testUpdateRecipeById() throws Exception {
+        final Long ID = 1L;
+        final String UPDATE_URL = "/recipe/" + ID + "/update";
+        RecipeCommand returningRecipe = RecipeCommand.builder().id(1L).build();
+
+        when(recipeService.findRecipeCommandById(ID)).thenReturn(returningRecipe);
+
+        mockMvc.perform(get(UPDATE_URL))
+                .andExpect(status().isOk())
+                .andExpect(view().name("recipe/recipeform"))
+                .andExpect(model().attribute("recipe", Matchers.is(returningRecipe)));
+    }
+
+    @Test
+    public void testDeleteRecipeById() throws Exception {
+        final Long ID = 1L;
+        final String DELETE_URL = "/recipe/" + ID + "/delete";
+
+        mockMvc.perform(get(DELETE_URL))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/"));
     }
 }

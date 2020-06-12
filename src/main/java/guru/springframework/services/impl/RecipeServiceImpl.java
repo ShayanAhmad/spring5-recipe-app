@@ -1,6 +1,7 @@
 package guru.springframework.services.impl;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
@@ -61,5 +62,21 @@ public class RecipeServiceImpl implements RecipeService {
         log.debug("Recipe has been saved!");
 
         return recipeToRecipeCommandConverter.convert(savedRecipe);
+    }
+
+    @Override
+    @Transactional
+    public RecipeCommand findRecipeCommandById(Long id) {
+        if (Objects.isNull(id)) {
+            throw new RuntimeException("ID does not exist!");
+        }
+
+        Recipe recipe = findById(id);
+        return recipeToRecipeCommandConverter.convert(recipe);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        recipeRepository.deleteById(id);
     }
 }

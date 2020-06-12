@@ -11,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import guru.springframework.commands.RecipeCommand;
 import guru.springframework.converters.RecipeCommandToRecipe;
 import guru.springframework.converters.RecipeToRecipeCommand;
 import guru.springframework.domain.Recipe;
@@ -21,6 +22,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 /**
@@ -82,5 +84,41 @@ public class RecipeServiceImplTest {
         when(recipeRepository.findById(ID)).thenReturn(Optional.empty());
 
         recipeService.findById(ID);
+    }
+
+    @Test
+    public void testFindRecipeCommandByIdShouldReturnValue() {
+        final Long ID = 1L;
+        Recipe returningRecipe = Recipe.builder().id(ID).build();
+        RecipeCommand returningRecipeCommand = RecipeCommand.builder().id(ID).build();
+        Optional<Recipe> optionalRecipe = Optional.of(Recipe.builder().id(ID).build());
+        when(recipeRepository.findById(ID)).thenReturn(optionalRecipe);
+        when(recipeToRecipeCommand.convert(returningRecipe)).thenReturn(returningRecipeCommand);
+
+        RecipeCommand result = recipeService.findRecipeCommandById(ID);
+
+        assertNotNull(result);
+        assertEquals(ID, result.getId());
+
+        verify(recipeToRecipeCommand).convert(returningRecipe);
+        verifyNoMoreInteractions(recipeToRecipeCommand);
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void testFindRecipeCommandByIdIfNullShouldThrowException() {
+        recipeService.findRecipeCommandById(null);
+    }
+
+    @Test
+    public void testDeleteRecipeById() {
+        // GIVEN
+        final Long ID = 1L;
+
+        // WHEN
+        recipeService.deleteById(ID);
+
+        // THEN
+        verify(recipeRepository).deleteById(ID);
+        verifyNoMoreInteractions(recipeRepository);
     }
 }

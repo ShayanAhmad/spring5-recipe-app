@@ -22,7 +22,7 @@ public class RecipeController {
         this.recipeService = recipeService;
     }
 
-    @RequestMapping("/recipe/show/{id}")
+    @RequestMapping("/recipe/{id}/show")
     public String showById(@PathVariable(value = "id") Long recipeId, Model model) {
         model.addAttribute("recipe", recipeService.findById(recipeId));
         return "recipe/show";
@@ -38,6 +38,19 @@ public class RecipeController {
     @RequestMapping("recipe")
     public String saveOrUpdateRecipe(@ModelAttribute RecipeCommand recipeCommand) {
         RecipeCommand savedRecipeCommand = recipeService.saveRecipeCommand(recipeCommand);
-        return "redirect:/recipe/show/" + savedRecipeCommand.getId();
+        return "redirect:/recipe/" + savedRecipeCommand.getId() + "/show";
+    }
+
+    @RequestMapping("/recipe/{id}/update")
+    public String updateRecipeById(@PathVariable(value = "id") Long id, Model model) {
+        RecipeCommand recipeCommand = recipeService.findRecipeCommandById(id);
+        model.addAttribute("recipe", recipeCommand);
+        return "recipe/recipeform";
+    }
+
+    @RequestMapping("/recipe/{id}/delete")
+    public String deleteRecipeById(@PathVariable(value = "id") Long id) {
+        recipeService.deleteById(id);
+        return "redirect:/";
     }
 }
