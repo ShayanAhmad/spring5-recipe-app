@@ -26,7 +26,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Created by Shayan Ahmad (v-shahmad) on 05-Jun-20.
  */
 @RunWith(SpringRunner.class)
-//@WebMvcTest(IndexController.class)
 public class IndexControllerTest {
 
     @Mock
